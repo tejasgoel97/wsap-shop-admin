@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter,Routes, Route, Link} from 'react-router-dom'
 
-function App() {
+import Navbar from "./components/Navbar"
+import useAuthContext from './hooks/useAuthContext';
+import AddProductScreen from './screens/AddProductScreen';
+import EditProductScreen from './screens/EditProductScreen';
+import HomeScreen from './screens/HomeScreen';
+import LoginScreen from './screens/LoginScreen';
+import OrdersScreen from './screens/OrdersScreen';
+import CategoryScreen from './screens/CategoryScreen';
+
+
+
+const App =()=>{
+  const {authDone}= useAuthContext();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BrowserRouter>
+      {authDone ?
+      <>
+        <Navbar/>
+        <Routes>
+          <Route path="/" element={<HomeScreen/>}/>
+          <Route path="login" index element={<LoginScreen/>}/>
+          <Route path="AddNewProduct" element={<AddProductScreen/>}/>
+          <Route path="Orders" element={<OrdersScreen/>}/>
+          <Route path="category" element={<CategoryScreen/>}/>
+          
+          <Route path="EditProduct" element={<EditProductScreen/>}>
+            <Route path=":productId" element={<EditProductScreen/>}/>
+          </Route>
+        </Routes>
+        </>
+        :  
+        <Routes>
+          <Route path="" index element={<LoginScreen/>}/>
+        </Routes>
+      }
+      </BrowserRouter>
     </div>
-  );
+  )
 }
 
 export default App;
