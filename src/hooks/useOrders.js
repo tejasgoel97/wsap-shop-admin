@@ -24,7 +24,7 @@ const useOrders = () => {
             let orders = []
             querySnapshot.forEach((doc) => {
                 console.log(doc.id, " => ", doc.data());
-                orders.push({productId: doc.id, ...doc.data()});
+                orders.push({id: doc.id, ...doc.data()});
             });
             setActiveOrders(orders)
             setLoading(false)
@@ -61,8 +61,6 @@ const useOrders = () => {
     function DispatchOrder(){
 
     }
-
-
     return {orders, loading, error, DispatchOrder, getActiveOrders, activeOrders}
 }
 

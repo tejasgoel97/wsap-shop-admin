@@ -44,19 +44,7 @@ const ProductForm = (props) => {
           placeholder="Enter GST"
         />
       </div>
-      {/* <div className="mb-4">
-        <Label htmlFor="description" className="block text-sm font-medium">
-          Description
-        </Label>
-        <textarea
-          id="description"
-          rows="3"
-          value={description}
-          onChange={handleDescriptionChange}
-          placeholder="Enter product description"
-          className="w-full rounded-lg px-4 py-2 border border-gray-300 focus:outline-none focus:border-blue-500"
-        />
-      </div> */}
+      
     </div>
   );
 };

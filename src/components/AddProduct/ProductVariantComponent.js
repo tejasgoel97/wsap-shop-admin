@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import ToggleButton from "../ToggleButton";
 import Select from "react-select";
+import { Button } from "flowbite-react";
+import { TrashIcon } from "@heroicons/react/20/solid";
+import { AddIconButton, DeleteIconButton } from "../Button/IconButton";
 
 const allVariants = [
   {
@@ -48,17 +51,17 @@ const allSubVariants = [
   },
 ];
 const ProductVariantComponent = (props) => {
-  const {variants, setVariants, allVariants, allSubVariants} = props
+  const { variants, setVariants, allVariants, allSubVariants } = props;
   // const [variants, setVariants] = useState([]);
   console.log(variants);
   const variantsOptions = allVariants.map((variant) => {
     return { value: variant.value, label: variant.name };
   });
-  const subVariantOptions = allSubVariants.map((subVar)=>{
-    return {value:subVar.value, label:subVar.name}
-  })
+  const subVariantOptions = allSubVariants.map((subVar) => {
+    return { value: subVar.value, label: subVar.name };
+  });
   const addVariant = () => {
-    setVariants([...variants, { name: "", subvariants: [], value:"" }]);
+    setVariants([...variants, { name: "", subvariants: [], value: "" }]);
   };
 
   const deleteVariant = (index) => {
@@ -73,8 +76,8 @@ const ProductVariantComponent = (props) => {
       name: "",
       MRP: "",
       SP: "",
-      value:"",
-      isSelected:true
+      value: "",
+      isSelected: true,
     });
     setVariants(updatedVariants);
   };
@@ -91,10 +94,16 @@ const ProductVariantComponent = (props) => {
     updatedVariants[variantIndex].value = selectedOption.value;
     setVariants(updatedVariants);
   };
-  const handleSubVariantNameChange = (selectedOption, variantIndex, subVariantIndex) => {
+  const handleSubVariantNameChange = (
+    selectedOption,
+    variantIndex,
+    subVariantIndex
+  ) => {
     const updatedVariants = [...variants];
-    updatedVariants[variantIndex].subvariants[subVariantIndex].name = selectedOption.label
-    updatedVariants[variantIndex].subvariants[subVariantIndex].value = selectedOption.value
+    updatedVariants[variantIndex].subvariants[subVariantIndex].name =
+      selectedOption.label;
+    updatedVariants[variantIndex].subvariants[subVariantIndex].value =
+      selectedOption.value;
 
     setVariants(updatedVariants);
   };
@@ -125,8 +134,12 @@ const ProductVariantComponent = (props) => {
   };
 
   return (
-    <div className="p-4 bg-gray-100 rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-4">Variants</h1>
+    <div className="p-4">
+      <div className="flex gap-2">
+        <h1 className="text-2xl font-bold">Variants</h1>
+        <AddIconButton onClick={() => addVariant()}>New Variant</AddIconButton>
+      </div>
+
       {variants.map((variant, variantIndex) => (
         <div
           key={variantIndex}
@@ -136,26 +149,29 @@ const ProductVariantComponent = (props) => {
         >
           <div className="flex items-center mb-4 justify-between">
             <div>
-              <h2 className="text-lg font-semibold mr-2">{`Variant ${
-                variantIndex + 1
-              }`}</h2>
-              <Select
-                options={variantsOptions}
-                value={variantsOptions.find(
-                  (option) => option.value === variant.name
-                )}
-                onChange={(selectedOption) =>
-                  handleVariantNameChange(selectedOption, variantIndex)
-                }
-                placeholder="Select Variant"
-              />
-              <button
-                onClick={() => deleteVariant(variantIndex)}
-                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition-colors"
-              >
-                <i className="fas fa-trash mr-2"></i>Delete Variant
-              </button>
+              <div className="flex gap-2 m-2">
+                <h2 className="text-lg font-semibold mr-2">{`Variant ${
+                  variantIndex + 1
+                }`}</h2>
+                <AddIconButton onClick={() => addSubVariant(variantIndex)}>
+                  New Subvariant
+                </AddIconButton>
+              </div>
+              <div className="flex gap-2">
+                <Select
+                  options={variantsOptions}
+                  value={variantsOptions.find(
+                    (option) => option.value === variant.name
+                  )}
+                  onChange={(selectedOption) =>
+                    handleVariantNameChange(selectedOption, variantIndex)
+                  }
+                  placeholder="Select Variant"
+                />
+                <DeleteIconButton onClick={() => deleteVariant(variantIndex)} label={"Delete"}/>
+              </div>
             </div>
+
             <ToggleButton
               isSelected={variant.isSelected}
               setIsSelected={() => handleVariantToggle(variantIndex)}
@@ -184,19 +200,23 @@ const ProductVariantComponent = (props) => {
                 </div>
 
                 <div className="flex flex-wrap mb-2">
-                  <label
+                  {/* <label
                     htmlFor={`name_${variantIndex}_${subVariantIndex}`}
                     className="block mr-2"
                   >
                     Name:
-                  </label>
+                  </label> */}
                   <Select
                     options={subVariantOptions}
                     value={subVariantOptions.find(
                       (option) => option.value === subVariant.name
                     )}
                     onChange={(selectedOption) =>
-                      handleSubVariantNameChange(selectedOption, variantIndex, subVariantIndex)
+                      handleSubVariantNameChange(
+                        selectedOption,
+                        variantIndex,
+                        subVariantIndex
+                      )
                     }
                     placeholder="Select Variant"
                   />
@@ -262,31 +282,22 @@ const ProductVariantComponent = (props) => {
                     className="border rounded px-2 py-1 w-full focus:outline-none"
                   />
                 </div>
-                <button
+                <DeleteIconButton
                   onClick={() =>
                     deleteSubVariant(variantIndex, subVariantIndex)
                   }
-                  className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition-colors"
-                >
-                  <i className="fas fa-trash mr-2"></i>Delete Subvariant
-                </button>
+                />
               </div>
             ))}
           </div>
-          <button
+          {/* <button
             onClick={() => addSubVariant(variantIndex)}
             className="mt-4 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition-colors"
           >
             Add Subvariant
-          </button>
+          </button> */}
         </div>
       ))}
-      <button
-        onClick={addVariant}
-        className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition-colors"
-      >
-        Add Variant
-      </button>
     </div>
   );
 };

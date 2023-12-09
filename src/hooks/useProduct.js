@@ -23,7 +23,7 @@ const useProduct = (productId)=>{
                     console.log("Document data:", docSnap.data());
                     setIsProductLoading(false)
                     setProductLoadingError(false)
-                    setProduct(docSnap.data())
+                    setProduct({...docSnap.data(),id:productId })
                   } else {
                     // doc.data() will be undefined in this case
                     new Error("No such document!");

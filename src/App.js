@@ -8,6 +8,7 @@ import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import OrdersScreen from './screens/OrdersScreen';
 import CategoryScreen from './screens/CategoryScreen';
+import OrderDetailScreen from './screens/OrderDetailScreen';
 
 
 
@@ -25,6 +26,7 @@ const App =()=>{
           <Route path="login" index element={<LoginScreen/>}/>
           <Route path="AddNewProduct" element={<AddProductScreen/>}/>
           <Route path="Orders" element={<OrdersScreen/>}/>
+          <Route path="order-details/:orderId" element={<OrderDetailScreen/>}/>
           <Route path="category" element={<CategoryScreen/>}/>
           
           <Route path="EditProduct" element={<EditProductScreen/>}>

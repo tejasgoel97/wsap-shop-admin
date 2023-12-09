@@ -52,7 +52,7 @@ const CategoryDropdown = (props) => {
             value={selectedCategory}
             onChange={handleCategoryChange}
             placeholder="Select Category"
-            className="w-full rounded-lg px-4 py-3 border border-gray-300 focus:outline-none focus:border-blue-500 text-lg"
+            className="w-full rounded-lg px-4 py-3 border focus:outline-none focus:border-blue-500 text-lg"
           />
         </div>
         <div className="w-full sm:w-1/2">
@@ -73,7 +73,7 @@ const CategoryDropdown = (props) => {
             value={selectedSubcategory}
             onChange={handleSubcategoryChange}
             placeholder="Select Subcategory"
-            className="w-full rounded-lg px-4 py-3 border border-gray-300 focus:outline-none focus:border-blue-500 text-lg"
+            className="w-full rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500 text-lg"
             isDisabled={!selectedCategory}
           />
         </div>
@@ -91,7 +91,7 @@ const CategoryDropdown = (props) => {
           value={{value:selectedBrand, label:selectedBrand}}
           onChange={handleBrandChange}
           placeholder="Select Brand"
-          className="w-full rounded-lg px-4 py-3 border border-gray-300 focus:outline-none focus:border-blue-500 text-lg"
+          className="w-full rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500 text-lg"
         />
       </div>
     </div>

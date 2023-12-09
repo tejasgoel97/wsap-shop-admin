@@ -3,6 +3,9 @@ import InputformComp from "../InputFormComp";
 import ImageUploadModel from "../ImageUploadModel";
 import ToggleButton from "../ToggleButton";
 import ImageUpload from "../ImageUpload";
+import ImageUploadModal from "../Modal/ImageUploadModal";
+import { DeleteIconButton } from "../Button/IconButton";
+import { TextInput } from "flowbite-react";
 
 const BrandBox = (props) => {
   const { brand, brandIndex, brands, setBrands } = props;
@@ -43,25 +46,21 @@ const BrandBox = (props) => {
       </div>
       <div className="flex justify-between w-full">
         <div className="flex items-center w-full gap-3">
-          <InputformComp
-            label={brandIndex + 1}
-            text={brand.name}
-            setText={(value) => handleBrandChange(value, brandIndex)}
-          />
-          <button
-            className="font-bold  mb-6 hover:text-red-400"
-            onClick={() => removedescription(brandIndex)}
-          >
-            <img src="https://img.icons8.com/plasticine/40/000000/filled-trash.png" />
-          </button>
+          
+                <TextInput placeholder="Brand Name" addon={brandIndex + 1} value={brand.name} onChange={(e) => handleBrandChange(e.target.value, brandIndex)}/>
+
+          <DeleteIconButton onClick={() => removedescription(brandIndex)}>
+            SubCat
+          </DeleteIconButton>
         </div>
         <div>
-          {showModel && (
-            <ImageUploadModel
-              setShowModel={setShowModel}
-              handleUrl={handleUrl}
-            />
-          )}
+          <ImageUploadModal
+            setOpenModal={setShowModel}
+            openModal={showModel}
+            handleUrl={handleUrl}
+            setShowModel={setShowModel}
+          />
+
           <ImageUpload imgUrl={imgUrl} onClick={() => setShowModel(true)} />
         </div>
       </div>

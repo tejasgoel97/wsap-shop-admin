@@ -20,7 +20,7 @@ const useDeleteProduct = ()=>{
         }catch(err){
             console.log(err)
 
-            deleteError("Error Occoured in deleting product, Please reload the Page")
+            setDeleteError("Error Occoured in deleting product, Please reload the Page")
         }
     }
 

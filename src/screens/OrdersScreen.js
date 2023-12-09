@@ -25,7 +25,7 @@ const OrderScreen = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className=" min-h-screen">
       <div className="bg-white p-4 shadow-md ">
         <div className="container mx-auto flex justify-between items-center ">
           <div>
@@ -53,7 +53,7 @@ const OrderScreen = () => {
           </div>
         </div>
       </div>
-
+ 
       <div className="container mx-auto mt-8 p-4">
         {activeTab === 'activeOrders' && <ActiveOrders />}
         {activeTab === 'completedOrders' && <CompletedOrders />}

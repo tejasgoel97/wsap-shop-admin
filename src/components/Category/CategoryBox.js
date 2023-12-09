@@ -3,6 +3,9 @@ import ImageUploadModel from "../ImageUploadModel";
 import { useEffect, useState } from "react";
 import ToggleButton from "../ToggleButton";
 import ImageUpload from "../ImageUpload";
+import { AddIconButton, DeleteIconButton } from "../Button/IconButton";
+import { TextInput } from "flowbite-react";
+import ImageUploadModal from "../Modal/ImageUploadModal";
 
 const EmptySubCategory = {
   name: "",
@@ -10,20 +13,19 @@ const EmptySubCategory = {
 };
 
 const CategoryBox = (props) => {
-  const { category,categories, setCategories, categoryIndex } = props;
+  const { category, categories, setCategories, categoryIndex } = props;
   const [showModel, setShowModel] = useState(false);
   const [imgUrl, setImgUrl] = useState(category.imageUrl);
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     const categoriesCopy = [...categories];
     categoriesCopy[categoryIndex].imageUrl = imgUrl;
     setCategories(categoriesCopy);
-  }, [imgUrl])
+  }, [imgUrl]);
 
   function handleUrl(url) {
     setImgUrl(url);
   }
-
 
   function handleCategoryChange(value, index) {
     const categoriesCopy = [...categories];
@@ -34,7 +36,7 @@ const CategoryBox = (props) => {
     const categoriesCopy = JSON.parse(JSON.stringify(categories));
     console.log(categoriesCopy);
     categoriesCopy[index].subCategories.push(EmptySubCategory);
-    console.log(categoriesCopy)
+    console.log(categoriesCopy);
     setCategories(categoriesCopy);
   }
 
@@ -46,43 +48,38 @@ const CategoryBox = (props) => {
 
   return (
     <div>
-      <div>
-        <h1 className="font-bold">Category {categoryIndex + 1}</h1>
+      <div className="flex gap-2 items-center justify-between">
+        <h1 className="font-bold text-2xl">Category {categoryIndex + 1}</h1>
+
+        <DeleteIconButton
+          onClick={() => removeCategory(categoryIndex)}
+        ></DeleteIconButton>
       </div>
       <div className="flex flex-col md:flex-row items-center w-full gap-3">
         <div className="flex items-center w-full gap-3">
-          <InputformComp
-            label={"Name"}
+          {/* <InputformComp
+            label={""}
             text={category.name}
             setText={(value) => handleCategoryChange(value, categoryIndex)}
+          /> */}
+          <TextInput
+            placeholder="Name"
+            addon="Name"
+            onChange={(e) => handleCategoryChange(e.target.value, categoryIndex)}
+            value={category.name}
+            required
           />
-  
-          {showModel && (
-            <ImageUploadModel
-              setShowModel={setShowModel}
-              handleUrl={handleUrl}
-              imgUrl={imgUrl}
-            />
-          )}
-          <button
-            className="font-bold mb-2 md:mb-0 hover:text-red-400"
-            onClick={() => AddSubCategory(categoryIndex)}
-          >
-            <img
-              className="inline-block"
-              src="https://img.icons8.com/color/30/000000/plus--v3.png"
-              alt="Add Sub Category"
-            />
-          </button>
-          <button
-            className="font-bold hover:text-red-400"
-            onClick={() => removeCategory(categoryIndex)}
-          >
-            <img
-              src="https://img.icons8.com/plasticine/40/000000/filled-trash.png"
-              alt="Remove Category"
-            />
-          </button>
+
+          <ImageUploadModal
+            setOpenModal={setShowModel}
+            openModal={showModel}
+            handleUrl={handleUrl}
+            setShowModel={setShowModel}
+          />
+
+          <AddIconButton onClick={() => AddSubCategory(categoryIndex)}>
+            New SubCategory
+          </AddIconButton>
         </div>
         <ImageUpload imgUrl={imgUrl} onClick={() => setShowModel(true)} />
       </div>

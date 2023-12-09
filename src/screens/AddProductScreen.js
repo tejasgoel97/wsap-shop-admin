@@ -22,8 +22,7 @@ export default function AddProduct() {
     const brands = metaData.brands
     const allVariants = metaData.variants;
     const allSubVariants = metaData.subVariants;
-    console.log(allVariants)
-    console.log(allSubVariants)
+
 
     if(loading) return <h1>Loading</h1>
     return<div className="md:justify-center md:flex p-2 mt-2 w-full">

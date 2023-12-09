@@ -2,14 +2,16 @@ import { FStorage } from "../firebase/config";
 import { useState, useEffect } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-const useStorage = (file) => {
+const useStorage = () => {
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
   const [url, setUrl] = useState(null);
 
-  useEffect(() => {
+ 
+  function uploadToFirebase(file){
     setUrl(null)
-    if (!file) return null;
+    console.log("UPLOADINGG")
+    if (!file) return ()=> {};
     const filee = "/images/tejas" + file.name;
     const storageRef = ref(FStorage, filee);
     const uploadTask = uploadBytesResumable(storageRef, file);
@@ -40,9 +42,9 @@ const useStorage = (file) => {
         });
       }
     );
-  }, [file]);
+  }
 
-  return { progress, url, error };
+  return { progress, url, error, uploadToFirebase, setProgress };
 };
 
 export default useStorage;

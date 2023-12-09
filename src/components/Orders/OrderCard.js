@@ -1,37 +1,11 @@
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
-// import Modal from "react-modal";
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-// Modal.setAppElement(document.getElementById('root'));
+import { Accordion, Table } from "flowbite-react";
 
 export default function Example(props) {
-    let subtitle;
 
-  const [modalIsOpen, setIsOpen] = useState(false);
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    subtitle.style.color = "#f00";
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
+ 
+ 
   const { order, index } = props;
   console.log(order);
   const orderDate = order.createdAt;
@@ -44,7 +18,31 @@ export default function Example(props) {
   } else {
     formattedDate = "no Datr";
   }
-
+  const price = order.totalPrice;
+  const status = order.status
+  const orderDetailsHref = `/order-details/${order.id }`
+  let splitOrderId = order.id.substring(0, 4).toUpperCase()
+  return (
+    <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800 cursor-pointer" >
+    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white cursor-pointer">
+    {splitOrderId}
+    </Table.Cell>
+    <Table.Cell>{formattedDate}</Table.Cell>
+    <Table.Cell>{price}</Table.Cell>
+    <Table.Cell><div>
+      <h1>
+        {currentAddress.name}
+        </h1>
+      {9467850060}
+      </div></Table.Cell>
+    <Table.Cell>{status}</Table.Cell>
+    <Table.Cell>
+      <a href={orderDetailsHref} className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+        Edit
+      </a>
+    </Table.Cell>
+  </Table.Row>
+  );
   return (
     <div className="mx-auto w-full mt-2 rounded-2xl bg-gray-300 p-2">
       {/* <Modal
@@ -77,7 +75,7 @@ export default function Example(props) {
                   <h1>Quantity</h1>
                   <h1 className="text-sm font-light">3</h1>
                 </div>
-                <div onClick={()=> setIsOpen(true)}>
+                <div onClick={() => {}}>
                   <h1>Status</h1>
                   <h1 className="text-sm font-light">{order.status}</h1>
                 </div>

@@ -4,6 +4,7 @@ import SubCategoryBox from "./SubCategoryBox";
 import BrandBox from "./BrandBox";
 import VariantTab from "./VariantTab";
 import SubVariantTab from "./SubVariantTab";
+import { AddIconButton } from "../Button/IconButton";
 
 const emptyCategory = {
   name: "",
@@ -49,12 +50,9 @@ const Category = ({ selectedTab, metaData, saveBrands, saveCategories, saveVaria
               <label className="block text-gray-500 font-bold text-2xl">
                 Category
               </label>
-              <button
-                className="bg-green-700 max-w-full mx-2 my-2 px-2 py-2 text-center text-white rounded-full"
-                onClick={() => AddCategory()}
-              >
-                Add Category
-              </button>
+              
+              <AddIconButton onClick={() => AddCategory()}>New Category</AddIconButton>
+
             </div>
             {categories.map((category, categoryIndex) => {
               return (
@@ -98,12 +96,9 @@ const Category = ({ selectedTab, metaData, saveBrands, saveCategories, saveVaria
               <label className="block text-gray-500 font-bold md:text-right mb-1 ml-5 md:mb-0 pr-4">
                 Brand
               </label>
-              <button
-                className="bg-green-700 max-w-full mx-2 my-2 px-2 py-2 text-center text-white rounded-full"
-                onClick={() => AddBrand()}
-              >
-                Add brand
-              </button>
+              <AddIconButton onClick={() => AddBrand()}>
+            New Brand
+          </AddIconButton>
             </div>
             {brands.map((brand, brandIndex) => (
               <BrandBox

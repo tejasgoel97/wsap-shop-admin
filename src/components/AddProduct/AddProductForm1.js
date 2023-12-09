@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageUploadComp from "../ImageUploadComp";
 import InputformComp from "../InputFormComp";
 import DropDownMenu from "../DropDownMenu";
@@ -17,14 +17,15 @@ import ProductForm from "./ProductInfo";
 import ImageUpload from "../ImageUpload";
 import DescriptionManager from "./DescriptionManager";
 import useCreateProduct from "../../hooks/useCreateProduct";
+import ImageUploadModal from "../Modal/ImageUploadModal";
+import { AddIconButton, SaveIconButton } from "../Button/IconButton";
 
-const AddProductForm = ({ allCat, brands, allVariants, allSubVariants }) => {
+const AddProductForm = ({ allCat, brands, allVariants, allSubVariants, productData }) => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [category, setCategory] = useState(null);
   const [subCategory, setSubCategory] = useState(null);
-  const [MRP, setMRP] = useState(0);
-  const [SP, setSP] = useState(0);
+
   const [GST, setGST] = useState(0);
   const [maxQuantity, setMaxQuantity] = useState(10);
   const [descriptions, setDescriptions] = useState([]);
@@ -36,7 +37,20 @@ const AddProductForm = ({ allCat, brands, allVariants, allSubVariants }) => {
   const [brand, setBrand] = useState(null);
   const [reviews, setReviews] = useState([]);
   const {addProduct, validationErrors} = useCreateProduct()
+console.log(brand)
 
+  useEffect(()=>{
+    if(productData){
+      setGST(productData.GST)
+      setName(productData.productName)
+      setSubCategory({label:productData.subCategory, value:productData.subCategory})
+      setCategory({label:productData.mainCategory, value:productData.mainCategory})
+      setBrand(productData.brand)
+      setDescriptions(productData.productDescription)
+      setImgUrl(productData.featureImage)
+      setVariants(productData.variants)
+    }
+  }, [productData])
 
 
 
@@ -45,7 +59,7 @@ const AddProductForm = ({ allCat, brands, allVariants, allSubVariants }) => {
     setImgUrl(url);
   }
 
-  async function handleCreateDoc() {
+  async function handleCreateAndUpdate() {
    
     // try {
     //   const docRef = await addDoc(collection(db, "products"), FinalProduct);
@@ -57,17 +71,26 @@ const AddProductForm = ({ allCat, brands, allVariants, allSubVariants }) => {
     //   window.alert("Cannot create the product, Please try again");
     // }
     const data = { name, GST, category, subCategory, descriptions, imgUrl, brand, variants };
-
+    if(productData){
+      return addProduct(data, productData.id)
+    }
     addProduct(data)
   }
   return (
     <div className="container xl:w-4/6 grid gap-3 bg-gray-100">
+      <div className="flex flex-wrap items-end">
+      <div className="flex-1">
+        
       <ProductForm name={name} setName={setName} GST={GST} setGST={setGST} />
+      </div>
       
-        {showModel && (
-          <ImageUploadModel setShowModel={setShowModel} handleUrl={handleUrl} />
-        )}
+        
+          {/* // <ImageUploadModel setShowModel={setShowModel} handleUrl={handleUrl} /> */}
+          <ImageUploadModal setOpenModal ={setShowModel} openModal={showModel} handleUrl={handleUrl} setShowModel={setShowModel}/>
+
+  
       <ImageUpload imgUrl={imgUrl} onClick={()=> setShowModel(true)} />
+      </div>
       <ProductVariantComponent variants={variants} setVariants={setVariants} allVariants={allVariants} allSubVariants={allSubVariants}/>
 
 
@@ -84,25 +107,20 @@ const AddProductForm = ({ allCat, brands, allVariants, allSubVariants }) => {
 
       <DescriptionManager descriptions={descriptions} setDescriptions={setDescriptions}/>
       <ReviewForm reviews={reviews} setReviews={setReviews}/>
-      <div className="">
+      {/* <div className="">
         <DeliveryCodesComp
           deliveryCodes={deliveryCodes}
           setDeliveryCodes={setDeliveryCodes}
         />
-      </div>
+      </div> */}
       {validationErrors.length>0 && 
       validationErrors.map(err=> (
         <p className="p-1 bg-red-600 rounded-b break-words text-white">
           {err}
         </p>
       ))}
-
-      <button
-        className="bg-green-700 mx-2 my-2 px-2 py-2 text-center text-white rounded-full w-full"
-        onClick={handleCreateDoc}
-      >
-        Create
-      </button>
+      <SaveIconButton label={productData? "Save Product":"Create Product"} onClick={handleCreateAndUpdate}/>
+      
     </div>
   );
 };

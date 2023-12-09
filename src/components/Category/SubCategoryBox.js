@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import ToggleButton from "../ToggleButton";
 import ImageUploadModel from "../ImageUploadModel";
 import ImageUpload from "../ImageUpload";
+import { DeleteIconButton } from "../Button/IconButton";
+import ImageUploadModal from "../Modal/ImageUploadModal";
 
 const SubCategoryBox = (props) => {
   const { categories, setCategories, subCat, subCatIndex, categoryIndex } =
@@ -32,11 +34,11 @@ const SubCategoryBox = (props) => {
   console.log(showModel);
   return (
     <div className="bg-white my-2 p-4 rounded-md md:col-span-1">
-      <div className="flex">
-        <h1 className="font-bold text-lg py-2">
+      <div className="flex items-center gap-2 justify-between">
+        <h1 className="font-bold text-lg ">
           Sub Category {subCatIndex + 1}
         </h1>
-        <button
+        {/* <button
           className="font-bold text-red-400 hover:text-red-600"
           onClick={() => removeSubCategory()}
         >
@@ -44,7 +46,9 @@ const SubCategoryBox = (props) => {
             src="https://img.icons8.com/plasticine/40/000000/filled-trash.png"
             alt="Remove Sub Category"
           />
-        </button>
+        </button> */}
+        <DeleteIconButton onClick={() => removeSubCategory()}>SubCat</DeleteIconButton>
+
       </div>
 
       <div className="flex flex-col md:flex-row justify-between items-center gap-3">
@@ -70,14 +74,7 @@ const SubCategoryBox = (props) => {
             />
           </div>
         </div>
-        <div>
-          {showModel && (
-            <ImageUploadModel
-              setShowModel={setShowModel}
-              handleUrl={handleUrl}
-            />
-          )}
-        </div>
+        <ImageUploadModal setOpenModal ={setShowModel} openModal={showModel} handleUrl={handleUrl} setShowModel={setShowModel}/>
         <ImageUpload imgUrl={imgUrl} onClick={() => setShowModel(true)} />
       </div>
     </div>

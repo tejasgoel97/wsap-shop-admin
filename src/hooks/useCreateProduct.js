@@ -1,4 +1,4 @@
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { db } from '../firebase/config';
 import { useNavigate } from 'react-router';
@@ -71,7 +71,7 @@ function useCreateProduct() {
     return errors;
   }
 
-  async function addProduct(data) {
+  async function addProduct(data, id) {
     const errors = validateData(data);
     const { name, GST, category, subCategory, descriptions, imgUrl, brand, variants } = data;
 
@@ -93,9 +93,18 @@ function useCreateProduct() {
       );
 
     try {
+      if(id){
+        const productRef = doc(db, "products", id);
+        await updateDoc(productRef, FinalProduct)
+        window.alert(`Product Changes Saved }`);
+      }
+      else {
         const docRef = await addDoc(collection(db, "products"), FinalProduct);
         console.log("Document written with ID: ", docRef.id);
         window.alert(`Document written with ID: ${docRef.id}`);
+      }
+       
+        
         // navigate("/");
     } catch (error) {
       console.error('API call error:', error);
